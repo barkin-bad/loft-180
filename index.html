@@ -1,39 +1,385 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loft180</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOFT180 - Металлическая мебель, ворота, каркасы</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
 
-    html, body {
-      height: 100%;
-    }
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            overflow-x: hidden;
+        }
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      color: #111111;
-      text-align: center;
-      padding: 20px;
-    }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    h1 {
-      font-size: clamp(24px, 5vw, 48px);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-  </style>
+        ul {
+            list-style: none;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .logo-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            border: 2px solid #000000;
+            padding: 5px 10px;
+            width: 70px;
+            height: 70px;
+            align-items: center;
+            justify-items: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-o {
+            width: 22px;
+            height: 22px;
+            border: 3px solid #ffcc00;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .logo-divider {
+            width: 3px;
+            height: 50px;
+            background-color: #ffcc00;
+            border-radius: 2px;
+        }
+
+        .logo-number {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ffcc00;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav > ul > li {
+            position: relative;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px 0;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        nav > ul > li:hover {
+            color: #ffcc00;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #ffffff;
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid #ffcc00;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content li {
+            padding: 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 15px 20px;
+            font-weight: normal;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+            color: #ffcc00;
+        }
+
+        main {
+            margin-top: 100px;
+        }
+
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #555555;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #ffcc00;
+            color: #000000;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #888888;
+            font-size: 16px;
+            border-bottom: 3px solid #ffcc00;
+        }
+
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-content h3 {
+            font-size: 20px;
+        }
+
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Loft180 — в разработке</h1>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-box">
+                    <span>L</span>
+                    <span class="logo-o"></span>
+                    <span>F</span>
+                    <span>T</span>
+                </div>
+                <div class="logo-divider"></div>
+                <div class="logo-number">180</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Главная</a></li>
+                    <li>
+                        Что мы делаем
+                        <ul class="dropdown-content">
+                            <li><a href="#furniture">Металлическая мебель</a></li>
+                            <li><a href="#gates">Ворота</a></li>
+                            <li><a href="#frames">Каркасы</a></li>
+                            <li><a href="#fences">Заборы</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <h1>LOFT180</h1>
+            <p>Создаем металлическую мебель, ворота, каркасы и заборы</p>
+            <a href="#contacts" class="btn">Связаться с нами</a>
+        </section>
+
+        <section id="services">
+            <h2 class="fade-in">Наши направления</h2>
+            <div class="grid">
+                <div class="card fade-in">
+                    <div class="photo-placeholder">Место для фото</div>
+                    <div class="card-content">
+                        <h3>Металлическая мебель</h3>
+                    </div>
+                </div>
+                <div class="card fade-in">
+                    <div class="photo-placeholder">Место для фото</div>
+                    <div class="card-content">
+                        <h3>Ворота</h3>
+                    </div>
+                </div>
+                <div class="card fade-in">
+                    <div class="photo-placeholder">Место для фото</div>
+                    <div class="card-content">
+                        <h3>Каркасы</h3>
+                    </div>
+                </div>
+                <div class="card fade-in">
+                    <div class="photo-placeholder">Место для фото</div>
+                    <div class="card-content">
+                        <h3>Заборы</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2 class="fade-in">О компании</h2>
+            <div class="fade-in" style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 18px; line-height: 1.6;">
+                <p>Мы специализируемся на изготовлении надежных и стильных металлических конструкций. Наш подход сочетает в себе качество материалов, точность исполнения и современный дизайн. Мы готовы воплотить в жизнь любые ваши идеи по благоустройству дома и участка.</p>
+            </div>
+        </section>
+
+        <section id="contacts">
+            <h2 class="fade-in">Контакты</h2>
+            <div class="fade-in" style="text-align: center; font-size: 18px;">
+                <p>Телефон: +7 (999) 000-00-00</p>
+                <p>Email: info@loft180.ru</p>
+                <p>Адрес: г. Москва, ул. Промышленная, д. 1</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>LOFT180. Все права защищены.</p>
+        <p>Металлическая мебель, ворота, каркасы, заборы.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
 </body>
 </html>
