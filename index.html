@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOFT180 - Металлическая мебель и конструкции</title>
+    <title>LOFT180</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
@@ -43,37 +43,6 @@
 
         ul {
             list-style: none;
-        }
-
-        .snow-container {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        .snowflake {
-            position: absolute;
-            top: 0;
-            line-height: 1;
-            color: #d9e4f0;
-            text-shadow: 0 0 0.35em rgba(0, 0, 0, 0.15), 0 0.08em 0.2em rgba(0, 0, 0, 0.08);
-            pointer-events: none;
-            user-select: none;
-            animation-name: snowfall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            will-change: transform;
-        }
-
-        @keyframes snowfall {
-            0% {
-                transform: translate3d(0, -10vh, 0) rotate(0deg);
-            }
-            100% {
-                transform: translate3d(var(--drift, 0px), 110vh, 0) rotate(360deg);
-            }
         }
 
         header {
@@ -312,6 +281,52 @@
             color: #ccc;
         }
 
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -12vh;
+            color: #ffffff;
+            text-shadow:
+                0 0 3px rgba(0, 0, 0, 0.45),
+                0 0 6px rgba(0, 0, 0, 0.25),
+                0 0 1px rgba(0, 0, 0, 0.6);
+            user-select: none;
+            pointer-events: none;
+            will-change: transform;
+            animation-name: snow-fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes snow-fall {
+            0% {
+                transform: translate3d(0, -12vh, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate3d(var(--drift), 50vh, 0) rotate(180deg);
+            }
+            100% {
+                transform: translate3d(calc(var(--drift) * -1), 112vh, 0) rotate(360deg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .snowflake {
+                animation: none;
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             nav > ul {
                 display: none;
@@ -323,17 +338,11 @@
                 font-size: 2rem;
             }
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            .snowflake {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div class="snow-container" aria-hidden="true"></div>
+    <div class="snow-container" id="snowContainer" aria-hidden="true"></div>
 
     <header>
         <a href="#" class="logo">
@@ -419,25 +428,29 @@
                 revealOnScroll.observe(reveal);
             });
 
-            const snowContainer = document.querySelector('.snow-container');
-            const snowflakeCount = 60;
-            const glyphs = ['❄', '❅', '❆'];
+            const snowContainer = document.getElementById('snowContainer');
+            const symbols = ['❄', '❅', '❆', '✻', '✼'];
+            const isSmallScreen = window.innerWidth < 768;
+            const count = isSmallScreen ? 30 : 70;
 
-            for (let i = 0; i < snowflakeCount; i++) {
+            for (let i = 0; i < count; i++) {
                 const flake = document.createElement('span');
                 flake.className = 'snowflake';
-                flake.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+                flake.textContent = symbols[Math.floor(Math.random() * symbols.length)];
 
-                const size = Math.random() * 14 + 8;
-                const duration = Math.random() * 20 + 15;
-                const drift = (Math.random() - 0.5) * 240;
+                const size = 8 + Math.random() * 18;
+                const duration = 8 + Math.random() * 14;
+                const delay = -Math.random() * duration;
+                const left = Math.random() * 100;
+                const drift = (Math.random() * 120 - 60).toFixed(1);
+                const opacity = (0.5 + Math.random() * 0.5).toFixed(2);
 
-                flake.style.left = (Math.random() * 100).toFixed(2) + 'vw';
-                flake.style.fontSize = size.toFixed(1) + 'px';
-                flake.style.opacity = (Math.random() * 0.5 + 0.35).toFixed(2);
-                flake.style.animationDuration = duration.toFixed(1) + 's';
-                flake.style.animationDelay = (-Math.random() * duration).toFixed(1) + 's';
-                flake.style.setProperty('--drift', drift.toFixed(0) + 'px');
+                flake.style.left = left + '%';
+                flake.style.fontSize = size + 'px';
+                flake.style.opacity = opacity;
+                flake.style.animationDuration = duration + 's';
+                flake.style.animationDelay = delay + 's';
+                flake.style.setProperty('--drift', drift + 'px');
 
                 snowContainer.appendChild(flake);
             }
