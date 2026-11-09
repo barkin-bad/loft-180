@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOFT180</title>
+    <title>LOFT180 - Металлическая мебель и конструкции</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
         :root {
-            --white: #ffffff;
-            --black: #111111;
-            --yellow: #f4c430;
-            --gray: #f5f5f5;
-            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --accent-color: #FBE400;
+            --gray-color: #f5f5f5;
+            --border-color: #eeeeee;
         }
 
         * {
@@ -22,175 +22,160 @@
         }
 
         body {
-            background-color: var(--white);
-            color: var(--black);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: 'Old Standard TT', serif;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
+        h1, h2, h3, h4, h5, h6 {
             font-family: 'Playfair Display SC', serif;
-            font-weight: 700;
+            font-weight: 400;
+            letter-spacing: 1px;
         }
 
         a {
             text-decoration: none;
             color: inherit;
-            transition: var(--transition);
+            transition: color 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
         }
 
         header {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 50px;
+            background-color: var(--bg-color);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.95);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .logo img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            transition: var(--transition);
+            max-height: 60px;
+            width: auto;
+            display: block;
         }
 
-        .logo img:hover {
-            transform: rotate(5deg) scale(1.05);
-        }
-
-        nav {
+        nav > ul {
             display: flex;
-            align-items: center;
             gap: 40px;
+            align-items: center;
         }
 
-        nav > a, .dropbtn {
+        nav > ul > li {
+            position: relative;
             font-family: 'Playfair Display SC', serif;
             font-size: 16px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
+            padding: 10px 0;
             cursor: pointer;
-            padding-bottom: 5px;
         }
 
-        nav > a::after, .dropbtn::after {
+        nav > ul > li::after {
             content: '';
             position: absolute;
-            width: 0;
-            height: 2px;
             bottom: 0;
             left: 0;
-            background-color: var(--yellow);
-            transition: var(--transition);
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
         }
 
-        nav > a:hover::after, .dropdown:hover .dropbtn::after {
+        nav > ul > li:hover::after {
             width: 100%;
         }
 
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
+        .dropdown-menu {
             position: absolute;
             top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background-color: var(--white);
-            min-width: 200px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            left: -20px;
+            background-color: var(--bg-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            min-width: 220px;
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition);
-            padding: 10px 0;
-            margin-top: 10px;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            padding: 15px 0;
+            border-top: 2px solid var(--accent-color);
         }
 
-        .dropdown:hover .dropdown-content {
+        nav > ul > li:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(0);
+            transform: translateY(0);
         }
 
-        .dropdown-content a {
+        .dropdown-menu li a {
             display: block;
-            padding: 12px 20px;
-            font-size: 14px;
-            text-align: center;
+            padding: 10px 25px;
+            font-family: 'Old Standard TT', serif;
+            font-size: 16px;
+            text-transform: none;
+            transition: background-color 0.3s ease, padding-left 0.3s ease;
         }
 
-        .dropdown-content a:hover {
-            background-color: var(--gray);
-            color: var(--black);
-            padding-left: 25px;
-        }
-
-        main {
-            padding-top: 100px;
-        }
-
-        section {
-            padding: 100px 50px;
-            max-width: 1400px;
-            margin: 0 auto;
+        .dropdown-menu li a:hover {
+            background-color: var(--gray-color);
+            padding-left: 35px;
+            color: #000;
         }
 
         .hero {
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
+            padding: 150px 5% 100px;
+            text-align: center;
+            background-color: var(--bg-color);
         }
 
         .hero h1 {
-            font-size: 5rem;
-            line-height: 1.1;
+            font-size: 4rem;
             margin-bottom: 20px;
-            max-width: 800px;
+            line-height: 1.1;
         }
 
         .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 40px;
+            font-size: 1.2rem;
             max-width: 600px;
+            margin: 0 auto 40px;
+            color: #555;
         }
 
         .btn {
             display: inline-block;
             padding: 15px 40px;
-            background-color: var(--yellow);
-            color: var(--black);
+            background-color: var(--text-color);
+            color: var(--bg-color);
             font-family: 'Playfair Display SC', serif;
             font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            border: 2px solid var(--yellow);
-            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 2px solid var(--text-color);
+            transition: all 0.3s ease;
         }
 
         .btn:hover {
-            background-color: var(--black);
-            color: var(--white);
-            border-color: var(--black);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 100px 5%;
         }
 
         .section-title {
-            font-size: 3rem;
-            margin-bottom: 60px;
             text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
             position: relative;
         }
 
@@ -199,7 +184,7 @@
             display: block;
             width: 60px;
             height: 3px;
-            background-color: var(--yellow);
+            background-color: var(--accent-color);
             margin: 20px auto 0;
         }
 
@@ -210,105 +195,101 @@
         }
 
         .card {
-            background-color: var(--white);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            padding: 30px;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border-color: var(--yellow);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
         }
 
         .placeholder {
+            background-color: var(--gray-color);
             width: 100%;
-            aspect-ratio: 1 / 1;
-            background-color: var(--gray);
+            aspect-ratio: 4 / 3;
             display: flex;
-            align-items: center;
             justify-content: center;
-            color: #888;
-            font-family: 'Old Standard TT', serif;
-            font-size: 14px;
-            border: 1px dashed #ccc;
-            transition: var(--transition);
+            align-items: center;
+            color: #999;
+            font-family: 'Playfair Display SC', serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover .placeholder {
-            background-color: #ececec;
-            border-color: var(--yellow);
-            color: var(--black);
+        .placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.7s ease;
         }
 
-        .card h3 {
+        .card:hover .placeholder::after {
+            left: 150%;
+        }
+
+        .card-content {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card-content h3 {
             font-size: 1.5rem;
+            margin-bottom: 15px;
         }
 
-        .card p {
-            color: #555;
+        .card-content p {
+            color: #666;
+            font-size: 1rem;
         }
 
-        .fade-in {
+        .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
 
-        .fade-in.visible {
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
         footer {
-            background-color: var(--black);
-            color: var(--white);
-            padding: 60px 50px;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 60px 5%;
             text-align: center;
-            margin-top: 50px;
         }
 
-        footer h3 {
-            color: var(--yellow);
+        footer h2 {
+            color: var(--accent-color);
             margin-bottom: 20px;
             font-size: 2rem;
         }
 
         footer p {
-            font-size: 1.1rem;
-            opacity: 0.8;
+            margin-bottom: 10px;
+            color: #ccc;
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 15px;
-            }
-            nav {
-                gap: 20px;
-                flex-wrap: wrap;
-                justify-content: center;
+            nav > ul {
+                display: none;
             }
             .hero h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
-            .hero p {
-                font-size: 1.2rem;
-            }
-            section {
-                padding: 60px 20px;
-            }
-            .dropdown-content {
-                left: 0;
-                transform: translateX(0);
-            }
-            .dropdown:hover .dropdown-content {
-                transform: translateX(0);
+            .section-title {
+                font-size: 2rem;
             }
         }
     </style>
@@ -316,104 +297,87 @@
 <body>
 
     <header>
-        <div class="logo">
-            <img src="assets/лоро.png" alt="LOFT180">
-        </div>
+        <a href="#" class="logo">
+            <img src="assets/лого прямоугольное.png" alt="LOFT180">
+        </a>
         <nav>
-            <a href="#">Главная</a>
-            <div class="dropdown">
-                <a class="dropbtn">Услуги</a>
-                <div class="dropdown-content">
-                    <a href="#">Мебель</a>
-                    <a href="#">Металлическая мебель</a>
-                    <a href="#">Ворота</a>
-                    <a href="#">Каркасы</a>
-                    <a href="#">Заборы</a>
-                </div>
-            </div>
-            <a href="#">О нас</a>
-            <a href="#">Контакты</a>
+            <ul>
+                <li><a href="#">Главная</a></li>
+                <li>
+                    Услуги
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Мебель</a></li>
+                        <li><a href="#">Ворота</a></li>
+                        <li><a href="#">Каркасы</a></li>
+                        <li><a href="#">Заборы</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">О нас</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <section class="hero fade-in">
-            <h1>Создаем пространство вашей мечты</h1>
-            <p>LOFT180 - это премиальная мебель, надежные ворота, каркасы и заборы. Минимализм, в который влюбляешься.</p>
-            <a href="#contact" class="btn">Обсудить проект</a>
+        <section class="hero">
+            <h1 class="reveal">Создаем металл с характером</h1>
+            <p class="reveal">Мебель, ворота, каркасы и заборы. Надежность и эстетика в каждой детали.</p>
+            <a href="#" class="btn reveal">Обсудить проект</a>
         </section>
 
-        <section id="services" class="fade-in">
-            <h2 class="section-title">Наши услуги</h2>
+        <section class="section" id="services">
+            <h2 class="section-title reveal">Наши работы</h2>
             <div class="grid">
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
-                    <h3>Мебель</h3>
-                    <p>Уникальные дизайнерские решения для вашего дома.</p>
+                <div class="card reveal">
+                    <div class="placeholder">Место для фото</div>
+                    <div class="card-content">
+                        <h3>Металлическая мебель</h3>
+                        <p>Стильные и долговечные решения для дома и бизнеса.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
-                    <h3>Металлическая мебель</h3>
-                    <p>Стильные и долговечные конструкции из металла.</p>
+                <div class="card reveal">
+                    <div class="placeholder">Место для фото</div>
+                    <div class="card-content">
+                        <h3>Ворота и заборы</h3>
+                        <p>Надежная защита с индивидуальным дизайном.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
-                    <h3>Ворота</h3>
-                    <p>Надежная защита и эстетика вашего участка.</p>
-                </div>
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
-                    <h3>Каркасы</h3>
-                    <p>Прочные основания для любых архитектурных задач.</p>
-                </div>
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
-                    <h3>Заборы</h3>
-                    <p>Ограждения, которые подчеркивают статус.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="portfolio" class="fade-in">
-            <h2 class="section-title">Примеры работ</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
-                </div>
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
-                </div>
-                <div class="card">
-                    <div class="placeholder">место для фото</div>
+                <div class="card reveal">
+                    <div class="placeholder">Место для фото</div>
+                    <div class="card-content">
+                        <h3>Каркасы</h3>
+                        <p>Прочные конструкции для любых задач.</p>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer id="contact" class="fade-in">
-        <h3>Свяжитесь с нами</h3>
-        <p>Телефон: +7 (999) 000-00-00</p>
-        <p>Email: info@loft180.ru</p>
-        <p style="margin-top: 20px; font-size: 14px; opacity: 0.5;">LOFT180. Все права защищены.</p>
+    <footer>
+        <h2 class="reveal">LOFT180</h2>
+        <p class="reveal">г. Москва, ул. Металлистов, д. 180</p>
+        <p class="reveal">+7 (999) 180-18-18</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const faders = document.querySelectorAll('.fade-in');
-            const appearOptions = {
-                threshold: 0.15,
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOptions = {
+                threshold: 0.1,
                 rootMargin: "0px 0px -50px 0px"
             };
-            const appearOnScroll = new IntersectionObserver((entries, observer) => {
+
+            const revealOnScroll = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (!entry.isIntersecting) return;
-                    entry.target.classList.add('visible');
+                    entry.target.classList.add('active');
                     observer.unobserve(entry.target);
                 });
-            }, appearOptions);
+            }, revealOptions);
 
-            faders.forEach(fader => {
-                appearOnScroll.observe(fader);
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
             });
         });
     </script>
