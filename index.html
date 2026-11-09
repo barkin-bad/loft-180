@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOFT180</title>
+    <title>LOFT180 - Металлическая мебель и конструкции</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
@@ -281,7 +281,7 @@
             color: #ccc;
         }
 
-        .snow-container {
+        .snow {
             position: fixed;
             top: 0;
             left: 0;
@@ -289,42 +289,28 @@
             height: 100%;
             overflow: hidden;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 2000;
         }
 
         .snowflake {
             position: absolute;
-            top: -12vh;
+            top: 0;
+            left: 0;
+            pointer-events: auto;
+            user-select: none;
+            -webkit-user-select: none;
+            will-change: transform, opacity;
+        }
+
+        .snowflake .flake {
+            display: block;
+            line-height: 1;
             color: #ffffff;
             text-shadow:
-                0 0 3px rgba(0, 0, 0, 0.45),
-                0 0 6px rgba(0, 0, 0, 0.25),
-                0 0 1px rgba(0, 0, 0, 0.6);
-            user-select: none;
-            pointer-events: none;
+                0 0 1px rgba(110, 130, 150, 0.95),
+                0 0 3px rgba(120, 140, 160, 0.6),
+                0 0 7px rgba(150, 170, 195, 0.35);
             will-change: transform;
-            animation-name: snow-fall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-
-        @keyframes snow-fall {
-            0% {
-                transform: translate3d(0, -12vh, 0) rotate(0deg);
-            }
-            50% {
-                transform: translate3d(var(--drift), 50vh, 0) rotate(180deg);
-            }
-            100% {
-                transform: translate3d(calc(var(--drift) * -1), 112vh, 0) rotate(360deg);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .snowflake {
-                animation: none;
-                display: none;
-            }
         }
 
         @media (max-width: 768px) {
@@ -342,7 +328,7 @@
 </head>
 <body>
 
-    <div class="snow-container" id="snowContainer" aria-hidden="true"></div>
+    <div class="snow" id="snow"></div>
 
     <header>
         <a href="#" class="logo">
@@ -368,8 +354,8 @@
 
     <main>
         <section class="hero">
-            <h1 class="reveal">Создаем мебель с характером</h1>
-            <p class="reveal">А также ворота, каркасы, навесы и заборы. Надежность и эстетика в каждой детали.</p>
+            <h1 class="reveal">Создаем металл с характером</h1>
+            <p class="reveal">Мебель, ворота, каркасы и заборы. Надежность и эстетика в каждой детали.</p>
             <a href="#" class="btn reveal">Обсудить проект</a>
         </section>
 
@@ -386,7 +372,7 @@
                 <div class="card reveal">
                     <div class="placeholder">Место для фото</div>
                     <div class="card-content">
-                        <h3>Ворота, заборы и навесы</h3>
+                        <h3>Ворота и заборы</h3>
                         <p>Надежная защита с индивидуальным дизайном.</p>
                     </div>
                 </div>
@@ -404,8 +390,7 @@
     <footer>
         <h2 class="reveal">LOFT180</h2>
         <p class="reveal">г. Донецк, ул. Шахтёров Донбасса, 1.</p>
-        <p class="reveal">+7 (949) 508-55-59</p>
-        <p class="reveal">+7 (949) 504-77-77</p>
+        <p class="reveal">+7 (999) 999-99-99</p>
     </footer>
 
     <script>
@@ -429,32 +414,109 @@
                 revealOnScroll.observe(reveal);
             });
 
-            const snowContainer = document.getElementById('snowContainer');
-            const symbols = ['❄', '❅', '❆', '✻', '✼'];
-            const isSmallScreen = window.innerWidth < 768;
-            const count = isSmallScreen ? 30 : 70;
+            const snowContainer = document.getElementById('snow');
+            if (!snowContainer) return;
 
-            for (let i = 0; i < count; i++) {
-                const flake = document.createElement('span');
-                flake.className = 'snowflake';
-                flake.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            const snowChars = ['❄', '❅', '❆'];
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const snowCount = isMobile ? 22 : 45;
 
-                const size = 8 + Math.random() * 18;
-                const duration = 8 + Math.random() * 14;
-                const delay = -Math.random() * duration;
-                const left = Math.random() * 100;
-                const drift = (Math.random() * 120 - 60).toFixed(1);
-                const opacity = (0.5 + Math.random() * 0.5).toFixed(2);
+            const flakes = [];
 
-                flake.style.left = left + '%';
-                flake.style.fontSize = size + 'px';
-                flake.style.opacity = opacity;
-                flake.style.animationDuration = duration + 's';
-                flake.style.animationDelay = delay + 's';
-                flake.style.setProperty('--drift', drift + 'px');
+            function spawnFlake() {
+                const el = document.createElement('div');
+                el.className = 'snowflake';
 
-                snowContainer.appendChild(flake);
+                const span = document.createElement('span');
+                span.className = 'flake';
+                span.textContent = snowChars[Math.floor(Math.random() * snowChars.length)];
+
+                const size = Math.random() * 18 + 8;
+                span.style.fontSize = size.toFixed(1) + 'px';
+                span.style.opacity = (Math.random() * 0.5 + 0.5).toFixed(2);
+
+                el.appendChild(span);
+                snowContainer.appendChild(el);
+
+                const flake = {
+                    el: el,
+                    span: span,
+                    x: Math.random() * window.innerWidth,
+                    y: -60 - Math.random() * window.innerHeight,
+                    speed: 60 + Math.random() * 80,
+                    swayAmp: 15 + Math.random() * 25,
+                    swaySpeed: 0.4 + Math.random() * 0.8,
+                    phase: Math.random() * Math.PI * 2,
+                    rot: Math.random() * 360,
+                    rotSpeed: (Math.random() * 40) - 20,
+                    caught: false,
+                    dead: false
+                };
+
+                el.style.transform = 'translate3d(' + flake.x.toFixed(1) + 'px,' + flake.y.toFixed(1) + 'px,0)';
+
+                const catchFlake = function () {
+                    if (flake.caught || flake.dead) return;
+                    flake.caught = true;
+                    el.style.pointerEvents = 'none';
+                    el.style.transition = 'opacity 1s ease';
+                    el.style.opacity = '0';
+                    setTimeout(function () {
+                        if (el.parentNode) el.parentNode.removeChild(el);
+                        flake.dead = true;
+                    }, 1100);
+                };
+
+                el.addEventListener('pointerenter', catchFlake);
+                el.addEventListener('pointerdown', catchFlake);
+                el.addEventListener('mouseenter', catchFlake);
+                el.addEventListener('touchstart', catchFlake, { passive: true });
+
+                flakes.push(flake);
             }
+
+            for (let i = 0; i < snowCount; i++) {
+                spawnFlake();
+            }
+
+            let lastTime = performance.now();
+            const raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (cb) { return setTimeout(function () { cb(performance.now()); }, 16); };
+
+            function tick(now) {
+                const dt = Math.min((now - lastTime) / 1000, 0.05);
+                lastTime = now;
+                const H = window.innerHeight;
+
+                for (let i = 0; i < flakes.length; i++) {
+                    const f = flakes[i];
+                    if (f.caught || f.dead) continue;
+
+                    f.y += f.speed * dt;
+                    f.phase += f.swaySpeed * dt;
+                    f.rot += f.rotSpeed * dt;
+
+                    if (f.y > H + 60) {
+                        f.y = -60;
+                        f.x = Math.random() * window.innerWidth;
+                    }
+
+                    const sx = f.x + Math.sin(f.phase) * f.swayAmp;
+                    f.el.style.transform = 'translate3d(' + sx.toFixed(1) + 'px,' + f.y.toFixed(1) + 'px,0)';
+                    f.span.style.transform = 'rotate(' + f.rot.toFixed(1) + 'deg)';
+                }
+
+                for (let i = flakes.length - 1; i >= 0; i--) {
+                    if (flakes[i].dead) flakes.splice(i, 1);
+                }
+
+                while (flakes.length < snowCount) {
+                    spawnFlake();
+                }
+
+                raf(tick);
+            }
+
+            raf(tick);
         });
     </script>
 </body>
