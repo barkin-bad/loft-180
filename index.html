@@ -281,6 +281,51 @@
             color: #ccc;
         }
 
+        /* ===== СНЕЖИНКИИИИИИ ===== */
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none; /* не мешает кликам */
+            z-index: 1500;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10vh;
+            animation-name: snow-fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            will-change: transform;
+        }
+
+        .snowflake-inner {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #ffffff 0%, #eaf1f9 70%, #d8e3ef 100%);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 0 6px rgba(255, 255, 255, 0.9);
+            animation-name: snow-sway;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        @keyframes snow-fall {
+            from { transform: translateY(0); }
+            to   { transform: translateY(120vh); }
+        }
+
+        @keyframes snow-sway {
+            from { transform: translateX(-10px); }
+            to   { transform: translateX(10px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .snow-container { display: none; }
+        }
+
         @media (max-width: 768px) {
             nav > ul {
                 display: none;
@@ -295,6 +340,8 @@
     </style>
 </head>
 <body>
+
+    <div class="snow-container" id="snow-container" aria-hidden="true"></div>
 
     <header>
         <a href="#" class="logo">
@@ -361,6 +408,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
             const reveals = document.querySelectorAll('.reveal');
 
             const revealOptions = {
@@ -379,6 +427,36 @@
             reveals.forEach(reveal => {
                 revealOnScroll.observe(reveal);
             });
+
+            /* ===== снежинкиии ===== */
+            const snowContainer = document.getElementById('snow-container');
+            const snowflakeCount = 60; // количество снежинок
+
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+
+                const size = Math.random() * 6 + 3; // размер 3–9 px
+
+                snowflake.style.left = Math.random() * 100 + 'vw';
+
+                snowflake.style.width = size + 'px';
+                snowflake.style.height = size + 'px';
+
+                snowflake.style.animationDuration = (Math.random() * 12 + 10) + 's';
+
+                snowflake.style.animationDelay = (-Math.random() * 22) + 's';
+
+                snowflake.style.opacity = (Math.random() * 0.4 + 0.5).toFixed(2);
+
+                const inner = document.createElement('span');
+                inner.className = 'snowflake-inner';
+                inner.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                inner.style.animationDelay = (-Math.random() * 5) + 's';
+
+                snowflake.appendChild(inner);
+                snowContainer.appendChild(snowflake);
+            }
         });
     </script>
 </body>
