@@ -79,6 +79,10 @@
             cursor: pointer;
         }
 
+        nav > ul > li > a {
+            display: block;
+        }
+
         nav > ul > li::after {
             content: '';
             position: absolute;
@@ -90,7 +94,8 @@
             transition: width 0.3s ease;
         }
 
-        nav > ul > li:hover::after {
+        nav > ul > li:hover::after,
+        nav > ul > li.active::after {
             width: 100%;
         }
 
@@ -130,8 +135,51 @@
             color: #000;
         }
 
+        .book {
+            perspective: 2200px;
+        }
+
+        .page {
+            display: none;
+            transform-origin: left center;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page.flip-out {
+            animation: flipOut 0.5s ease-in forwards;
+        }
+
+        .page.flip-in {
+            animation: flipIn 0.6s ease-out forwards;
+        }
+
+        @keyframes flipOut {
+            0% {
+                transform: rotateY(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: rotateY(-100deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes flipIn {
+            0% {
+                transform: rotateY(100deg);
+                opacity: 0;
+            }
+            100% {
+                transform: rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
         .hero {
-            padding: 150px 5% 100px;
+            padding: 150px 5% 120px;
             text-align: center;
             background-color: var(--bg-color);
         }
@@ -289,6 +337,74 @@
             font-size: 1rem;
         }
 
+        .about-text {
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.15rem;
+            color: #555;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .contacts-section {
+            min-height: calc(100vh - 91px);
+            background-color: var(--text-color);
+            color: #ffffff;
+            padding: 100px 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .contacts-section .section-title {
+            color: #ffffff;
+            margin-bottom: 40px;
+        }
+
+        .contact-line {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 35px;
+        }
+
+        .phone-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+
+        .phone-btn {
+            background-color: transparent;
+            color: #ffffff;
+            border-color: #ffffff;
+            font-size: 15px;
+            padding: 14px 30px;
+        }
+
+        .phone-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border-color: var(--accent-color);
+        }
+
+        .contact-mail {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .contact-mail:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -298,24 +414,6 @@
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        footer {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            padding: 60px 5%;
-            text-align: center;
-        }
-
-        footer h2 {
-            color: var(--accent-color);
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-
-        footer p {
-            margin-bottom: 10px;
-            color: #ccc;
         }
 
         .snow-container {
@@ -357,13 +455,6 @@
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .snowflake {
-                animation: none;
-                display: none;
-            }
-        }
-
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -402,11 +493,31 @@
                 padding: 8px 15px;
             }
 
+            .hero {
+                padding: 80px 5% 70px;
+            }
+
             .hero h1 {
                 font-size: 2.5rem;
             }
+
             .section-title {
                 font-size: 2rem;
+            }
+
+            .phone-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 15px;
+            }
+
+            .phone-btn {
+                width: 100%;
+            }
+
+            .contacts-section {
+                min-height: calc(100vh - 150px);
+                padding: 80px 5%;
             }
         }
     </style>
@@ -416,82 +527,152 @@
     <div class="snow-container" id="snowContainer" aria-hidden="true"></div>
 
     <header>
-        <a href="#" class="logo">
+        <a href="#home" class="logo" data-page="home">
             <img src="assets/лого прямоугольное.png" alt="LOFT180">
         </a>
         <nav>
             <ul>
-                <li><a href="#">Главная</a></li>
+                <li class="active"><a href="#home" data-page="home">Главная</a></li>
                 <li>
-                    Услуги
+                    <a href="#services" data-page="services">Услуги</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Мебель</a></li>
-                        <li><a href="#">Ворота</a></li>
-                        <li><a href="#">Каркасы</a></li>
-                        <li><a href="#">Заборы</a></li>
+                        <li><a href="#services" data-page="services">Мебель</a></li>
+                        <li><a href="#services" data-page="services">Ворота</a></li>
+                        <li><a href="#services" data-page="services">Каркасы</a></li>
+                        <li><a href="#services" data-page="services">Заборы</a></li>
                     </ul>
                 </li>
-                <li><a href="#">О нас</a></li>
-                <li><a href="#">Контакты</a></li>
+                <li><a href="#about" data-page="about">О нас</a></li>
+                <li><a href="#contacts" data-page="contacts">Контакты</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <section class="hero">
-            <h1 class="reveal">Создаем мебель с характером</h1>
-            <p class="reveal">А также ворота, каркасы, навесы и заборы. Надежность и эстетика в каждой детали.</p>
-            <a href="#" class="btn reveal">Обсудить проект</a>
-        </section>
+    <div class="book">
 
-        <section class="section" id="services">
-            <h2 class="section-title reveal">Наши работы</h2>
-            <div class="grid">
-                <div class="card reveal">
-                    <div class="placeholder">Место для фото</div>
-                    <div class="card-content">
-                        <h3>Металлическая мебель</h3>
-                        <p>Стильные и долговечные решения для дома и бизнеса.</p>
-                    </div>
-                </div>
-                <div class="card reveal">
-                    <div class="placeholder">Место для фото</div>
-                    <div class="card-content">
-                        <h3>Ворота, заборы и навесы</h3>
-                        <p>Надежная защита с индивидуальным дизайном.</p>
-                    </div>
-                </div>
-                <div class="card reveal">
-                    <div class="placeholder">Место для фото</div>
-                    <div class="card-content">
-                        <h3>Каркасы</h3>
-                        <p>Прочные конструкции для любых задач.</p>
-                    </div>
-                </div>
-                <div class="card reveal">
-                    <div class="card-img-wrapper">
-                        <img src="assets/мангальные зоны.jpg" alt="Мангальные зоны" class="card-img">
-                    </div>
-                    <div class="card-content">
-                        <h3>Мангальные зоны</h3>
-                        <p>Уютные и функциональные решения для отдыха на природе.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+        <div class="page active" id="page-home">
+            <section class="hero">
+                <h1 class="reveal">Создаем мебель с характером</h1>
+                <p class="reveal">А также ворота, каркасы, навесы и заборы. Надежность и эстетика в каждой детали.</p>
+                <a href="#contacts" class="btn reveal" data-page="contacts">Обсудить проект</a>
+            </section>
+        </div>
 
-    <footer>
-        <h2 class="reveal">LOFT180</h2>
-        <p class="reveal">г. Донецк, ул. Шахтёров Донбасса 1.</p>
-        <p class="reveal">+7 (949) 508-55-59</p>
-        <p class="reveal">+7 (949) 504-77-77</p>
-        <p class="reveal">loft180@mail.ru</p>
-        <p class="reveal">   </p>
-    </footer>
+        <div class="page" id="page-services">
+            <section class="section">
+                <h2 class="section-title reveal">Наши работы</h2>
+                <div class="grid">
+                    <div class="card reveal">
+                        <div class="placeholder">Место для фото</div>
+                        <div class="card-content">
+                            <h3>Металлическая мебель</h3>
+                            <p>Стильные и долговечные решения для дома и бизнеса.</p>
+                        </div>
+                    </div>
+                    <div class="card reveal">
+                        <div class="placeholder">Место для фото</div>
+                        <div class="card-content">
+                            <h3>Ворота, заборы и навесы</h3>
+                            <p>Надежная защита с индивидуальным дизайном.</p>
+                        </div>
+                    </div>
+                    <div class="card reveal">
+                        <div class="placeholder">Место для фото</div>
+                        <div class="card-content">
+                            <h3>Каркасы</h3>
+                            <p>Прочные конструкции для любых задач.</p>
+                        </div>
+                    </div>
+                    <div class="card reveal">
+                        <div class="card-img-wrapper">
+                            <img src="assets/мангальные зоны.jpg" alt="Мангальные зоны" class="card-img">
+                        </div>
+                        <div class="card-content">
+                            <h3>Мангальные зоны</h3>
+                            <p>Уютные и функциональные решения для отдыха на природе.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="page" id="page-about">
+            <section class="section">
+                <h2 class="section-title reveal">О нас</h2>
+                <div class="about-text">
+                    <p class="reveal">LOFT180 — мастерская металла в Донецке. Мы создаём мебель, ворота, каркасы, навесы и заборы, соединяя надёжность конструкций с выразительным дизайном.</p>
+                    <p class="reveal">Каждый проект делается под конкретного заказчика: от первой идеи и чертежа до изготовления и монтажа.</p>
+                    <p class="reveal">Мы работаем с металлом так, чтобы он служил десятилетиями и при этом выглядел современно.</p>
+                </div>
+            </section>
+        </div>
+
+        <div class="page" id="page-contacts">
+            <section class="contacts-section">
+                <h2 class="section-title reveal">Контакты</h2>
+                <p class="contact-line reveal">г. Донецк, ул. Шахтёров Донбасса 1.</p>
+                <div class="phone-buttons reveal">
+                    <a href="tel:+79495085559" class="btn phone-btn">+7 (949) 508-55-59</a>
+                    <a href="tel:+79495047777" class="btn phone-btn">+7 (949) 504-77-77</a>
+                </div>
+                <a href="mailto:loft180@mail.ru" class="contact-mail reveal">loft180@mail.ru</a>
+            </section>
+        </div>
+
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const navItems = document.querySelectorAll('nav > ul > li');
+            let isAnimating = false;
+
+            function setActiveNav(pageName) {
+                navItems.forEach(li => {
+                    const link = li.querySelector('a[data-page]');
+                    if (link && link.dataset.page === pageName) {
+                        li.classList.add('active');
+                    } else {
+                        li.classList.remove('active');
+                    }
+                });
+            }
+
+            function navigateTo(pageName) {
+                const next = document.getElementById('page-' + pageName);
+                const current = document.querySelector('.page.active');
+
+                if (!next || next === current || isAnimating) return;
+
+                setActiveNav(pageName);
+
+                if (!current) {
+                    next.classList.add('active');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+                isAnimating = true;
+                current.classList.add('flip-out');
+
+                setTimeout(() => {
+                    current.classList.remove('active', 'flip-out');
+                    next.classList.add('active', 'flip-in');
+                    window.scrollTo(0, 0);
+
+                    setTimeout(() => {
+                        next.classList.remove('flip-in');
+                        isAnimating = false;
+                    }, 620);
+                }, 500);
+            }
+
+            document.querySelectorAll('a[data-page]').forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    navigateTo(link.dataset.page);
+                });
+            });
+
             const reveals = document.querySelectorAll('.reveal');
 
             const revealOptions = {
@@ -513,8 +694,7 @@
 
             const snowContainer = document.getElementById('snowContainer');
             const symbols = ['❄', '❅', '❆', '✻', '✼'];
-            const isSmallScreen = window.innerWidth < 768;
-            const count = isSmallScreen ? 30 : 70;
+            const count = 70;
 
             for (let i = 0; i < count; i++) {
                 const flake = document.createElement('span');
