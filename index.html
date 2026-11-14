@@ -58,10 +58,28 @@
             align-items: center;
         }
 
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
         .logo img {
             max-height: 60px;
             width: auto;
             display: block;
+        }
+
+        .slogan {
+            font-family: 'Old Standard TT', serif;
+            font-style: italic;
+            font-size: 15px;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            color: #666666;
+            max-width: 190px;
+            padding-left: 18px;
+            border-left: 2px solid var(--accent-color);
         }
 
         nav > ul {
@@ -462,8 +480,24 @@
                 gap: 15px;
             }
 
+            .brand {
+                width: 100%;
+                justify-content: space-between;
+                gap: 12px;
+            }
+
             .logo img {
                 max-height: 45px;
+            }
+
+            .slogan {
+                font-size: 11px;
+                line-height: 1.35;
+                letter-spacing: 0.3px;
+                max-width: 150px;
+                text-align: right;
+                padding-left: 0;
+                border-left: none;
             }
 
             nav > ul {
@@ -527,9 +561,12 @@
     <div class="snow-container" id="snowContainer" aria-hidden="true"></div>
 
     <header>
-        <a href="#home" class="logo" data-page="home">
-            <img src="assets/лого прямоугольное.png" alt="LOFT180">
-        </a>
+        <div class="brand">
+            <a href="#home" class="logo" data-page="home">
+                <img src="assets/лого прямоугольное.png" alt="LOFT180">
+            </a>
+            <span class="slogan">Создано для долговечности и комфорта</span>
+        </div>
         <nav>
             <ul>
                 <li class="active"><a href="#home" data-page="home">Главная</a></li>
