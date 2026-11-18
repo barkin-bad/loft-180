@@ -174,6 +174,7 @@ section { scroll-margin-top: 90px; }
 .card {
     background: var(--accent);
     border: 1px solid var(--border);
+    cursor: pointer;
     transition: transform .3s, box-shadow .3s;
 }
 
@@ -227,6 +228,30 @@ section { scroll-margin-top: 90px; }
 
 .card:hover .placeholder::after,
 .card:hover .card-img-wrapper::after { left: 150%; }
+
+.card-arrows {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.card:hover .card-arrows {
+    opacity: 1;
+}
+
+.card-arrows span {
+    font-size: 2.5rem;
+    line-height: 1;
+    color: rgba(255,255,255,.8);
+    text-shadow: 0 2px 6px rgba(0,0,0,.5);
+    user-select: none;
+}
 
 .card-content { padding: 30px; text-align: center; }
 .card-content h3 { font-size: 1.5rem; margin-bottom: 15px; }
@@ -333,6 +358,100 @@ section { scroll-margin-top: 90px; }
     100% { transform: translate3d(calc(var(--drift) * -1), 112vh, 0) rotate(360deg); }
 }
 
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgba(0,0,0,.92);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+
+.lightbox.open { opacity: 1; visibility: visible; }
+
+.lightbox-stage {
+    width: min(85vw, 900px);
+    height: min(63.75vw, 675px);
+    background: #151515;
+    border: 1px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,.7);
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.lightbox-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+    font-family: var(--display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 20px;
+}
+
+.lightbox-arrow {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    line-height: 1;
+    padding: 15px;
+    cursor: pointer;
+    transition: color .3s, transform .3s, opacity .3s;
+    user-select: none;
+    opacity: 0;
+}
+
+.lightbox:hover .lightbox-arrow {
+    opacity: 1;
+}
+
+.lightbox-arrow:hover {
+    color: var(--accent);
+    transform: scale(1.2);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.8rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+    transition: color .3s, transform .3s;
+}
+
+.lightbox-close:hover {
+    color: var(--accent);
+    transform: rotate(90deg);
+}
+
 @media (max-width: 768px) {
     header { flex-direction: column; padding: 15px 5% 10px; gap: 15px; }
     .brand { width: 100%; justify-content: space-between; gap: 12px; }
@@ -350,6 +469,12 @@ section { scroll-margin-top: 90px; }
     .phone-stack { width: 100%; }
     .phone-btn { width: 100%; }
     .contacts-section { min-height: calc(100vh - 150px); padding: 80px 5%; }
+    .lightbox { padding: 10px; gap: 4px; }
+    .lightbox-stage { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+    .lightbox-arrow { font-size: 1.5rem; padding: 6px; opacity: 1; }
+    .lightbox-close { top: 10px; right: 14px; font-size: 2.2rem; }
+    .card-arrows { padding: 0 8px; }
+    .card-arrows span { font-size: 1.8rem; }
 }
 </style>
 </head>
@@ -390,34 +515,64 @@ section { scroll-margin-top: 90px; }
     <section id="services" class="section">
         <h2 class="section-title reveal">Наши работы</h2>
         <div class="grid">
-            <div class="card reveal">
-                <div class="placeholder">Место для фото</div>
+            <div class="card reveal" data-gallery="mebel">
+                <div class="placeholder">
+                    Место для фото
+                    <div class="card-arrows"><span>❮</span><span>❯</span></div>
+                </div>
                 <div class="card-content">
                     <h3>Металлическая мебель</h3>
                     <p>Стильные и долговечные решения для дома и бизнеса.</p>
                 </div>
             </div>
-            <div class="card reveal">
-                <div class="placeholder">Место для фото</div>
+            <div class="card reveal" data-gallery="vorota">
+                <div class="placeholder">
+                    Место для фото
+                    <div class="card-arrows"><span>❮</span><span>❯</span></div>
+                </div>
                 <div class="card-content">
                     <h3>Ворота, заборы и навесы</h3>
                     <p>Надежная защита с индивидуальным дизайном.</p>
                 </div>
             </div>
-            <div class="card reveal">
-                <div class="placeholder">Место для фото</div>
+            <div class="card reveal" data-gallery="karkasy">
+                <div class="placeholder">
+                    Место для фото
+                    <div class="card-arrows"><span>❮</span><span>❯</span></div>
+                </div>
                 <div class="card-content">
                     <h3>Каркасы</h3>
                     <p>Прочные конструкции для любых задач.</p>
                 </div>
             </div>
-            <div class="card reveal">
+            <div class="card reveal" data-gallery="mangal">
                 <div class="card-img-wrapper">
                     <img src="assets/мангальные зоны.jpg" alt="Мангальные зоны" class="card-img">
+                    <div class="card-arrows"><span>❮</span><span>❯</span></div>
                 </div>
                 <div class="card-content">
                     <h3>Мангальные зоны</h3>
                     <p>Уютные и функциональные решения для отдыха на природе.</p>
+                </div>
+            </div>
+            <div class="card reveal" data-gallery="gibka">
+                <div class="placeholder">
+                    Место для фото
+                    <div class="card-arrows"><span>❮</span><span>❯</span></div>
+                </div>
+                <div class="card-content">
+                    <h3>Гибка</h3>
+                    <p>Гибка металла по индивидуальным размерам и чертежам.</p>
+                </div>
+            </div>
+            <div class="card reveal" data-gallery="dobory">
+                <div class="placeholder">
+                    Место для фото
+                    <div class="card-arrows"><span>❮</span><span>❯</span></div>
+                </div>
+                <div class="card-content">
+                    <h3>Доборные элементы из листового металла</h3>
+                    <p>Элементы из листового металла для кровли и фасадов.</p>
                 </div>
             </div>
         </div>
@@ -454,6 +609,13 @@ section { scroll-margin-top: 90px; }
         <a href="mailto:loft180@mail.ru" class="contact-mail reveal">loft180@mail.ru</a>
     </section>
 </main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Галерея работ" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">&times;</button>
+    <button class="lightbox-arrow" id="lightboxPrev" aria-label="Предыдущее фото">&#10094;</button>
+    <div class="lightbox-stage" id="lightboxStage"></div>
+    <button class="lightbox-arrow" id="lightboxNext" aria-label="Следующее фото">&#10095;</button>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -496,6 +658,110 @@ document.addEventListener('DOMContentLoaded', () => {
             `--drift:${(Math.random() * 120 - 60).toFixed(1)}px`;
         snow.appendChild(f);
     }
+
+    const galleries = {
+        mebel: [
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' }
+        ],
+        vorota: [
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' }
+        ],
+        karkasy: [
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' }
+        ],
+        mangal: [
+            { type: 'image', src: 'assets/мангальные зоны.jpg', alt: 'Мангальные зоны' },
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' }
+        ],
+        gibka: [
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' }
+        ],
+        dobory: [
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' },
+            { type: 'placeholder', text: 'Место для фото' }
+        ]
+    };
+
+    const lightbox = document.getElementById('lightbox');
+    const stage = document.getElementById('lightboxStage');
+    const btnPrev = document.getElementById('lightboxPrev');
+    const btnNext = document.getElementById('lightboxNext');
+    const btnClose = document.getElementById('lightboxClose');
+
+    let currentGallery = null;
+    let currentIndex = 0;
+
+    const renderSlide = () => {
+        const items = galleries[currentGallery];
+        if (!items) return;
+        const item = items[currentIndex];
+        stage.innerHTML = '';
+
+        if (item.type === 'image') {
+            const img = document.createElement('img');
+            img.src = item.src;
+            img.alt = item.alt || '';
+            img.className = 'lightbox-img';
+            stage.appendChild(img);
+        } else {
+            const ph = document.createElement('div');
+            ph.className = 'lightbox-placeholder';
+            ph.textContent = item.text;
+            stage.appendChild(ph);
+        }
+    };
+
+    const openGallery = (key) => {
+        if (!galleries[key]) return;
+        currentGallery = key;
+        currentIndex = 0;
+        renderSlide();
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeGallery = () => {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    const move = (dir) => {
+        const items = galleries[currentGallery];
+        if (!items) return;
+        currentIndex = (currentIndex + dir + items.length) % items.length;
+        renderSlide();
+    };
+
+    document.querySelectorAll('[data-gallery]').forEach(card => {
+        card.addEventListener('click', () => openGallery(card.dataset.gallery));
+    });
+
+    btnPrev.addEventListener('click', (e) => { e.stopPropagation(); move(-1); });
+    btnNext.addEventListener('click', (e) => { e.stopPropagation(); move(1); });
+    btnClose.addEventListener('click', closeGallery);
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeGallery();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeGallery();
+        if (e.key === 'ArrowLeft') move(-1);
+        if (e.key === 'ArrowRight') move(1);
+    });
 });
 </script>
 </body>
