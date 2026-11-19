@@ -91,42 +91,6 @@ nav > ul > li::after {
 nav > ul > li:hover::after,
 nav > ul > li.active::after { width: 100%; }
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: -20px;
-    min-width: 220px;
-    background: var(--bg);
-    box-shadow: 0 10px 30px rgba(0,0,0,.05);
-    border-top: 2px solid var(--accent);
-    padding: 15px 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all .3s;
-}
-
-nav > ul > li:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.dropdown-menu li a {
-    display: block;
-    padding: 10px 25px;
-    font-family: var(--serif);
-    font-size: 16px;
-    text-transform: none;
-    transition: background .3s, padding-left .3s;
-}
-
-.dropdown-menu li a:hover {
-    background: var(--gray);
-    padding-left: 35px;
-    color: #000;
-}
-
 section { scroll-margin-top: 90px; }
 
 .hero { padding: 150px 5% 120px; text-align: center; }
@@ -183,23 +147,11 @@ section { scroll-margin-top: 90px; }
     box-shadow: 0 20px 40px rgba(0,0,0,.05);
 }
 
-.placeholder, .card-img-wrapper {
+.card-img-wrapper {
     width: 100%;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     position: relative;
-}
-
-.placeholder {
-    background: var(--gray);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #999;
-    font-family: var(--display);
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .card-img {
@@ -212,7 +164,6 @@ section { scroll-margin-top: 90px; }
 
 .card:hover .card-img { transform: scale(1.08); }
 
-.placeholder::after,
 .card-img-wrapper::after {
     content: '';
     position: absolute;
@@ -226,7 +177,6 @@ section { scroll-margin-top: 90px; }
     pointer-events: none;
 }
 
-.card:hover .placeholder::after,
 .card:hover .card-img-wrapper::after { left: 150%; }
 
 .card-arrows {
@@ -282,44 +232,46 @@ section { scroll-margin-top: 90px; }
 .contacts-section .section-title { color: #fff; margin-bottom: 40px; }
 .contact-line { font-size: 1.2rem; color: #ccc; margin-bottom: 35px; }
 
-.contact-grid {
+.contacts-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.phone-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 60px;
-    flex-wrap: wrap;
-    margin-bottom: 35px;
+    gap: 12px;
 }
 
-.phone-stack { display: flex; flex-direction: column; gap: 15px; }
-
-.phone-btn {
-    background: transparent;
-    color: #fff;
-    border-color: #fff;
-    font-size: 15px;
-    padding: 14px 30px;
-    text-align: center;
+.contact-phone {
+    font-size: 1.2rem;
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s;
 }
 
-.social-stack { display: flex; gap: 20px; }
+.contact-phone:hover {
+    border-bottom-color: var(--accent);
+}
 
-.social-btn {
-    width: 75px;
-    height: 75px;
-    display: flex;
-    justify-content: center;
+.contact-icon-link {
+    display: inline-flex;
     align-items: center;
-    background: var(--accent);
-    border-radius: 16px;
-    box-shadow: 0 8px 0 #d4c100, 0 15px 25px rgba(0,0,0,.4);
-    transform: translateY(0);
-    transition: all .15s;
+    justify-content: center;
+    transition: transform .2s;
 }
 
-.social-btn:hover { transform: translateY(4px); box-shadow: 0 4px 0 #d4c100, 0 10px 15px rgba(0,0,0,.4); }
-.social-btn:active { transform: translateY(8px); box-shadow: 0 0 0 #d4c100, 0 5px 10px rgba(0,0,0,.4); }
-.social-btn img { width: 60%; height: 60%; object-fit: contain; }
+.contact-icon-link:hover {
+    transform: scale(1.1);
+}
+
+.contact-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
 
 .contact-mail {
     font-size: 1.2rem;
@@ -459,15 +411,9 @@ section { scroll-margin-top: 90px; }
     .slogan { font-size: 11px; line-height: 1.35; letter-spacing: .3px; max-width: 150px; text-align: right; padding-left: 0; border-left: none; }
     nav > ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
     nav > ul > li { font-size: 12px; padding: 5px 0; }
-    .dropdown-menu { left: 50%; transform: translateX(-50%) translateY(10px); min-width: 180px; }
-    nav > ul > li:hover .dropdown-menu { transform: translateX(-50%) translateY(0); }
-    .dropdown-menu li a { font-size: 14px; padding: 8px 15px; }
     .hero { padding: 80px 5% 70px; }
     .hero h1 { font-size: 2.5rem; }
     .section-title { font-size: 2rem; }
-    .contact-grid { flex-direction: column; gap: 30px; }
-    .phone-stack { width: 100%; }
-    .phone-btn { width: 100%; }
     .contacts-section { min-height: calc(100vh - 150px); padding: 80px 5%; }
     .lightbox { padding: 10px; gap: 4px; }
     .lightbox-stage { width: 100%; height: auto; aspect-ratio: 4 / 3; }
@@ -490,15 +436,7 @@ section { scroll-margin-top: 90px; }
     <nav>
         <ul>
             <li class="active"><a href="#home">Главная</a></li>
-            <li>
-                <a href="#services">Услуги</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#services">Мебель</a></li>
-                    <li><a href="#services">Ворота</a></li>
-                    <li><a href="#services">Каркасы</a></li>
-                    <li><a href="#services">Заборы</a></li>
-                </ul>
-            </li>
+            <li><a href="#services">Услуги</a></li>
             <li><a href="#about">О нас</a></li>
             <li><a href="#contacts">Контакты</a></li>
         </ul>
@@ -516,8 +454,8 @@ section { scroll-margin-top: 90px; }
         <h2 class="section-title reveal">Наши работы</h2>
         <div class="grid">
             <div class="card reveal" data-gallery="mebel">
-                <div class="placeholder">
-                    Место для фото
+                <div class="card-img-wrapper">
+                    <img src="assets/фото1.png" alt="Металлическая мебель" class="card-img">
                     <div class="card-arrows"><span>❮</span><span>❯</span></div>
                 </div>
                 <div class="card-content">
@@ -526,8 +464,8 @@ section { scroll-margin-top: 90px; }
                 </div>
             </div>
             <div class="card reveal" data-gallery="vorota">
-                <div class="placeholder">
-                    Место для фото
+                <div class="card-img-wrapper">
+                    <img src="assets/фото4.png" alt="Ворота, заборы и навесы" class="card-img">
                     <div class="card-arrows"><span>❮</span><span>❯</span></div>
                 </div>
                 <div class="card-content">
@@ -536,8 +474,8 @@ section { scroll-margin-top: 90px; }
                 </div>
             </div>
             <div class="card reveal" data-gallery="karkasy">
-                <div class="placeholder">
-                    Место для фото
+                <div class="card-img-wrapper">
+                    <img src="assets/фото7.png" alt="Каркасы" class="card-img">
                     <div class="card-arrows"><span>❮</span><span>❯</span></div>
                 </div>
                 <div class="card-content">
@@ -556,13 +494,23 @@ section { scroll-margin-top: 90px; }
                 </div>
             </div>
             <div class="card reveal" data-gallery="gibka">
-                <div class="placeholder">
-                    Место для фото
+                <div class="card-img-wrapper">
+                    <img src="assets/фото12.png" alt="Гибка" class="card-img">
                     <div class="card-arrows"><span>❮</span><span>❯</span></div>
                 </div>
                 <div class="card-content">
                     <h3>Гибка</h3>
                     <p>Доборные элементы из листового металла.</p>
+                </div>
+            </div>
+            <div class="card reveal" data-gallery="korpus">
+                <div class="card-img-wrapper">
+                    <img src="assets/фото15.png" alt="Корпусная мебель" class="card-img">
+                    <div class="card-arrows"><span>❮</span><span>❯</span></div>
+                </div>
+                <div class="card-content">
+                    <h3>Корпусная мебель</h3>
+                    <p>Кухни, гардеробные, шкафы купе</p>
                 </div>
             </div>
         </div>
@@ -581,22 +529,21 @@ section { scroll-margin-top: 90px; }
         <h2 class="section-title reveal">Контакты</h2>
         <p class="contact-line reveal">г. Донецк, ул. Шахтёров Донбасса 1.</p>
 
-        <div class="contact-grid reveal">
-            <div class="phone-stack">
-                <a href="tel:+79495085559" class="btn phone-btn">+7 (949) 508-55-59</a>
-                <a href="tel:+79495047777" class="btn phone-btn">+7 (949) 504-77-77</a>
-            </div>
-            <div class="social-stack">
-                <a href="https://max.ru/id614322080843_biz" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Написать в MAX">
-                    <img src="assets/MAX.svg" alt="MAX">
+        <div class="contacts-list reveal">
+            <div class="phone-item">
+                <a href="tel:+79495085559" class="contact-phone">+7 (949) 508-55-59</a>
+                <a href="#" class="contact-icon-link" onclick="alert('Введите данный номер в MAX'); return false;" aria-label="MAX">
+                    <img src="assets/MAX.svg" alt="MAX" class="contact-icon">
                 </a>
-                <a href="https://t.me/loftdn180" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Написать в Telegram">
-                    <img src="assets/icons8-телеграм.svg" alt="Telegram">
+                <a href="https://t.me/Loftdn" target="_blank" rel="noopener noreferrer" class="contact-icon-link" aria-label="Telegram">
+                    <img src="assets/icons8-телеграм.svg" alt="Telegram" class="contact-icon">
                 </a>
             </div>
+            <div class="phone-item">
+                <a href="tel:+79495047777" class="contact-phone">+7 (949) 504-77-77</a>
+            </div>
+            <a href="mailto:loft180@mail.ru" class="contact-mail">loft180@mail.ru</a>
         </div>
-
-        <a href="mailto:loft180@mail.ru" class="contact-mail reveal">loft180@mail.ru</a>
     </section>
 </main>
 
@@ -651,34 +598,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const galleries = {
         mebel: [
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' }
+            { type: 'image', src: 'assets/фото1.png', alt: 'Металлическая мебель' },
+            { type: 'image', src: 'assets/фото2.png', alt: 'Металлическая мебель' },
+            { type: 'image', src: 'assets/фото3.png', alt: 'Металлическая мебель' }
         ],
         vorota: [
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' }
+            { type: 'image', src: 'assets/фото4.png', alt: 'Ворота, заборы и навесы' },
+            { type: 'image', src: 'assets/фото5.png', alt: 'Ворота, заборы и навесы' },
+            { type: 'image', src: 'assets/фото6.png', alt: 'Ворота, заборы и навесы' }
         ],
         karkasy: [
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' }
+            { type: 'image', src: 'assets/фото7.png', alt: 'Каркасы' },
+            { type: 'image', src: 'assets/фото8.png', alt: 'Каркасы' },
+            { type: 'image', src: 'assets/фото9.png', alt: 'Каркасы' }
         ],
         mangal: [
             { type: 'image', src: 'assets/мангальные зоны.jpg', alt: 'Мангальные зоны' },
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' }
+            { type: 'image', src: 'assets/фото10.png', alt: 'Мангальные зоны' },
+            { type: 'image', src: 'assets/фото11.png', alt: 'Мангальные зоны' }
         ],
         gibka: [
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' }
+            { type: 'image', src: 'assets/фото12.png', alt: 'Гибка' },
+            { type: 'image', src: 'assets/фото13.png', alt: 'Гибка' },
+            { type: 'image', src: 'assets/фото14.png', alt: 'Гибка' }
         ],
-        dobory: [
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' },
-            { type: 'placeholder', text: 'Место для фото' }
+        korpus: [
+            { type: 'image', src: 'assets/фото15.png', alt: 'Корпусная мебель' },
+            { type: 'image', src: 'assets/фото16.png', alt: 'Корпусная мебель' },
+            { type: 'image', src: 'assets/фото17.png', alt: 'Корпусная мебель' }
         ]
     };
 
